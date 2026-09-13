@@ -1,0 +1,30 @@
+openapi: 3.0.3
+info:
+  title: CAB System - Reviews API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+security: [{bearerAuth: []}]
+paths:
+  /products/{productId}/reviews:
+    get:
+      summary: Get product reviews
+      parameters: [{name: productId, in: path, required: true, schema: {type: integer}}]
+      responses: {'200': {description: Review list}}
+    post:
+      summary: Create product review
+      parameters: [{name: productId, in: path, required: true, schema: {type: integer}}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [rating, comment]
+              properties:
+                rating: {type: integer, minimum: 1, maximum: 5}
+                comment: {type: string}
+      responses: {'201': {description: Review created}}
+components:
+  securitySchemes:
+    bearerAuth: {type: http, scheme: bearer, bearerFormat: JWT}
