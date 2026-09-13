@@ -1,0 +1,24 @@
+openapi: 3.0.3
+info:
+  title: CAB System - Users API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+security: [{bearerAuth: []}]
+paths:
+  /users:
+    get:
+      summary: Get users
+      responses:
+        '200': {description: User list}
+        '403': {description: Admin permission required}
+  /users/{userId}:
+    get:
+      summary: Get user details
+      parameters:
+        - {name: userId, in: path, required: true, schema: {type: integer}}
+      responses:
+        '200': {description: User details}
+components:
+  securitySchemes:
+    bearerAuth: {type: http, scheme: bearer, bearerFormat: JWT}
