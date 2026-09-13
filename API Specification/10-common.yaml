@@ -1,0 +1,22 @@
+openapi: 3.0.3
+info:
+  title: CAB System - Common Schemas
+  version: 1.0.0
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    UserRole:
+      type: string
+      enum: [customer, staff, admin]
+    OrderStatus:
+      type: string
+      enum: [PENDING_CONFIRMATION, CONFIRMED, SHIPPING, DELIVERED, CANCELLED]
+    ErrorResponse:
+      type: object
+      properties:
+        message: {type: string}
+        code: {type: string}
