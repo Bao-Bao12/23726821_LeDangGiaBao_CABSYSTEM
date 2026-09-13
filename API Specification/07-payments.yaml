@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: CAB System - Payments API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+security: [{bearerAuth: []}]
+paths:
+  /orders/{orderId}/payment:
+    post:
+      summary: Pay for an order
+      parameters: [{name: orderId, in: path, required: true, schema: {type: integer}}]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [paymentMethod]
+              properties:
+                paymentMethod: {type: string, enum: [COD, ONLINE]}
+      responses: {'200': {description: Payment processed}}
+components:
+  securitySchemes:
+    bearerAuth: {type: http, scheme: bearer, bearerFormat: JWT}
