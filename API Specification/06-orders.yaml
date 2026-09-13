@@ -1,0 +1,28 @@
+openapi: 3.0.3
+info:
+  title: CAB System - Orders API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+security: [{bearerAuth: []}]
+paths:
+  /orders:
+    get:
+      summary: Get orders
+      responses: {'200': {description: Order list}}
+    post:
+      summary: Create order
+      responses: {'201': {description: Order created}}
+  /orders/{orderId}:
+    get:
+      summary: Get order details
+      parameters: [{name: orderId, in: path, required: true, schema: {type: integer}}]
+      responses: {'200': {description: Order details}}
+  /orders/{orderId}/cancel:
+    post:
+      summary: Cancel order
+      parameters: [{name: orderId, in: path, required: true, schema: {type: integer}}]
+      responses: {'200': {description: Order cancelled}}
+components:
+  securitySchemes:
+    bearerAuth: {type: http, scheme: bearer, bearerFormat: JWT}
