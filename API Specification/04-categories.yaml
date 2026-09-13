@@ -1,0 +1,29 @@
+openapi: 3.0.3
+info:
+  title: CAB System - Categories API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+paths:
+  /categories:
+    get:
+      summary: List categories
+      responses: {'200': {description: Category list}}
+    post:
+      summary: Create category
+      security: [{bearerAuth: []}]
+      responses: {'201': {description: Category created}}
+  /categories/{categoryId}:
+    put:
+      summary: Update category
+      security: [{bearerAuth: []}]
+      parameters: [{name: categoryId, in: path, required: true, schema: {type: integer}}]
+      responses: {'200': {description: Category updated}}
+    delete:
+      summary: Delete category
+      security: [{bearerAuth: []}]
+      parameters: [{name: categoryId, in: path, required: true, schema: {type: integer}}]
+      responses: {'204': {description: Category deleted}}
+components:
+  securitySchemes:
+    bearerAuth: {type: http, scheme: bearer, bearerFormat: JWT}
