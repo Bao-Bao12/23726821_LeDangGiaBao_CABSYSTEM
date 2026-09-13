@@ -1,0 +1,18 @@
+openapi: 3.0.3
+info:
+  title: CAB System - Statistics API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+security: [{bearerAuth: []}]
+paths:
+  /statistics/overview:
+    get:
+      summary: Get revenue and sales statistics
+      parameters:
+        - {name: from, in: query, schema: {type: string, format: date}}
+        - {name: to, in: query, schema: {type: string, format: date}}
+      responses: {'200': {description: Statistics result}}
+components:
+  securitySchemes:
+    bearerAuth: {type: http, scheme: bearer, bearerFormat: JWT}
