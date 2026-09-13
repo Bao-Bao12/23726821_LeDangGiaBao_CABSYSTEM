@@ -1,0 +1,44 @@
+openapi: 3.0.3
+info:
+  title: CAB System - Products API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+paths:
+  /products:
+    get:
+      summary: List and search products
+      parameters:
+        - {name: search, in: query, schema: {type: string}}
+        - {name: categoryId, in: query, schema: {type: integer}}
+      responses:
+        '200': {description: Product list}
+    post:
+      summary: Create product
+      security: [{bearerAuth: []}]
+      responses:
+        '201': {description: Product created}
+  /products/{productId}:
+    get:
+      summary: Get product details
+      parameters:
+        - {name: productId, in: path, required: true, schema: {type: integer}}
+      responses:
+        '200': {description: Product details}
+    put:
+      summary: Update product
+      security: [{bearerAuth: []}]
+      parameters:
+        - {name: productId, in: path, required: true, schema: {type: integer}}
+      responses:
+        '200': {description: Product updated}
+    delete:
+      summary: Delete product
+      security: [{bearerAuth: []}]
+      parameters:
+        - {name: productId, in: path, required: true, schema: {type: integer}}
+      responses:
+        '204': {description: Product deleted}
+components:
+  securitySchemes:
+    bearerAuth: {type: http, scheme: bearer, bearerFormat: JWT}
