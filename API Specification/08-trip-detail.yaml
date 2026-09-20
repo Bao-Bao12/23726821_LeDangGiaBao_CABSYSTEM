@@ -1,0 +1,76 @@
+
+openapi: 3.0.4
+info:
+  title: CAB System API
+  version: 1.0.0
+  description: API thử nghiệm cho hệ thống đặt xe CAB System MVP.
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+tags:
+  - name: CAB System
+    description: API đặt xe cơ bản
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      properties:
+        id: {type: integer, example: 1}
+        full_name: {type: string, example: Nguyen Van A}
+        phone: {type: string, example: "0901234567"}
+        email: {type: string, format: email, example: user@example.com}
+        role: {type: string, enum: [CUSTOMER, DRIVER, OPERATIONS, ADMIN], example: CUSTOMER}
+        status: {type: string, example: ACTIVE}
+    Trip:
+      type: object
+      properties:
+        id: {type: integer, example: 1001}
+        customer_id: {type: integer, example: 1}
+        driver_id: {type: integer, nullable: true, example: 5}
+        vehicle_id: {type: integer, nullable: true, example: 8}
+        pickup_location: {type: string, example: IUH, Go Vap, Ho Chi Minh City}
+        dropoff_location: {type: string, example: Ben Thanh Market, Ho Chi Minh City}
+        status:
+          type: string
+          enum: [PENDING, DRIVER_ASSIGNED, DRIVER_ARRIVED, IN_PROGRESS, COMPLETED, CANCELLED, NO_DRIVER, PAYMENT_FAILED]
+          example: PENDING
+        estimated_fare: {type: number, format: double, example: 85000}
+        final_fare: {type: number, format: double, nullable: true, example: 90000}
+    Error:
+      type: object
+      properties:
+        message: {type: string, example: Request is invalid}
+
+paths:
+  /trips/{tripId}:
+    get:
+      tags: ['CAB System']
+      summary: Lấy chi tiết một chuyến xe
+      operationId: getTripById
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: tripId
+          required: true
+          schema:
+            type: integer
+            example: 1001
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                                  $ref: "#/components/schemas/Trip"
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
